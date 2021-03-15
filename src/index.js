@@ -1,5 +1,5 @@
 const sndcld = url => `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-		src="https://w.soundcloud.com/player/?url=${url}&auto_play=true"></iframe>`
+	src="https://w.soundcloud.com/player/?url=${url}&auto_play=true"></iframe>`
 const ytbe = url => `<iframe src="https://www.youtube.com/embed/${url.slice(url.lastIndexOf('/') + 1)}?autoplay=1"></iframe>`
 const blbl = url => `<iframe src="https://player.bilibili.com/player.html?aid=${url.slice(url.lastIndexOf('av') + 2)}&autoplay=1"></iframe>`
 
@@ -79,7 +79,11 @@ async function nextVideo(reqUrl = '') {
     try {
         navigator.mediaSession.metadata = new MediaMetadata({ title: url.textContent.replace(/(\n|\t)+/g, ' ') })
     } catch { }
-    text.innerHTML = `<p>Name: ${url.outerHTML}</p><p>Published ${url.parentNode.parentNode.querySelector('[field="Published"]').innerHTML}</p><p>Author: ${url.parentNode.parentNode.querySelector('[field="Author"]').innerHTML}</p><p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
+    text.innerHTML = `
+        <p>Name: ${url.outerHTML}</p>
+        <p>Published ${url.parentNode.parentNode.querySelector('[field="Published"]').innerHTML}</p>
+        <p>Author: ${url.parentNode.parentNode.querySelector('[field="Author"]').innerHTML}</p>
+        <p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
     console.log(Array.from(document.querySelector('.text').children).map((e, i) => i ? e.textContent : e.textContent.replace(/\n/, ' ').replace(/\t*/g, '') + '	' + e.firstElementChild.href).join('\n'))
     let old
     if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\//)) {
