@@ -1,5 +1,6 @@
 const express = require('express')
 const youtubedl = require('youtube-dl')
+const { execSync } = require('child_process')
 
 const app = express()
 const port = 3000
@@ -80,4 +81,19 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
-app.use(express.static('.'))
+app.use(express.static('src'))
+
+// exec('start chrome -incognito http://localhost:3000', function (err, stdout, stderr) {
+//     if (err)
+//         exec('start http://127.0.0.1:3000', function (err, stdout, stderr) {
+//             if (err) {
+//                 console.error(err)
+//             }
+//         })
+// })
+
+try {
+    execSync('start chromes -incognito http://localhost:3000')
+} catch (error) {
+    execSync('start http://127.0.0.1:3000')
+}
