@@ -1,22 +1,29 @@
 const fs = require('fs')
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const { gachiListFetch } = require('./gachi-list');
+const { todoListFetch } = require('./todo-list');
 
-const gachiList = fs.readFileSync('gachi-list.html', 'utf8')
-const todoList = fs.readFileSync('todo-list.html', 'utf8')
-const index = fs.readFileSync('src/index.html', 'utf8')
+(async () => {
+    await gachiListFetch()
+    await todoListFetch()
 
-const gachiDOM = new JSDOM(gachiList)
-const todoDOM = new JSDOM(todoList)
-const indexDOM = new JSDOM(index)
+    const gachiList = fs.readFileSync(`${__dirname}/gachi-list.html`, 'utf8')
+    const todoList = fs.readFileSync(`${__dirname}/todo-list.html`, 'utf8')
+    const index = fs.readFileSync(`src/index.html`, 'utf8')
 
-const gachiHTML = gachiDOM.window.document.querySelector('tbody').innerHTML
-const todoHTML = todoDOM.window.document.querySelector('tbody').innerHTML
+    const gachiDOM = new JSDOM(gachiList)
+    const todoDOM = new JSDOM(todoList)
+    const indexDOM = new JSDOM(index)
 
-const document = indexDOM.window.document
+    const gachiHTML = gachiDOM.window.document.querySelector('tbody').innerHTML
+    const todoHTML = todoDOM.window.document.querySelector('tbody').innerHTML
 
-document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
+    const document = indexDOM.window.document
 
-document.querySelectorAll('[src="/public/img/youtube-logo.png"]').forEach(img => img.src = 'images/youtube-logo.png')
+    document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
 
-fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + document.documentElement.outerHTML)
+    document.querySelectorAll('[src="/public/img/youtube-logo.png"]').forEach(img => img.src = 'images/youtube-logo.png')
+
+    fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + document.documentElement.outerHTML)
+})()
