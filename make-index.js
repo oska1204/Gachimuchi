@@ -15,4 +15,4 @@ const todoHTML = todoDOM.window.document.querySelector('tbody').innerHTML
 
 indexDOM.window.document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
 
-fs.writeFileSync('indextest.html', '<!DOCTYPE html>' + indexDOM.window.document.documentElement.outerHTML)
+fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + indexDOM.window.document.documentElement.outerHTML)
