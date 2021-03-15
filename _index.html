@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gachimuchi</title>
+    <style>
+        video {
+            max-width: 1280px;
+            max-height: 720px;
+            width: 100%;
+            height: 100%;
+        }
+
+        video:nth-of-type(2) {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay></video>
+    <input>
+    <script>
+        const v1 = Array.from(document.querySelectorAll('video'))
+        document.querySelector('input').addEventListener('change', e => {
+            const url = e.target.value
+            fetch('?url=' + url, { method: 'post' }).then(e => e.json()).then(e => e.forEach((e, i) => vs[i].src = e))
+        })
+    </script>
+</body>
+
+</html>
