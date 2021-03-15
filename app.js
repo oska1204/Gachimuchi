@@ -93,7 +93,7 @@ app.use(express.static('src'))
 // })
 
 try {
-    execSync('start chromes -incognito http://localhost:3000')
+    execSync('start chrome -incognito http://localhost:3000')
 } catch (error) {
     execSync('start http://127.0.0.1:3000')
 }
