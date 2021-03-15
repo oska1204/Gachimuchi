@@ -81,7 +81,7 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
-app.use(express.static('src'))
+app.use(express.static('dist'))
 
 // exec('start chrome -incognito http://localhost:3000', function (err, stdout, stderr) {
 //     if (err)
