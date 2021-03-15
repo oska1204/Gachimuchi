@@ -9,6 +9,15 @@ html::-webkit-scrollbar {
     box-sizing: border-box;
 }
 
+.info {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.info > .video-player {
+    margin: -8px 0 0 8px;
+}
+
 .scroll-wrapper {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -36,7 +45,7 @@ html::-webkit-scrollbar {
 
 video {
     height: 100%;
-    width: 100vw;
+    width: 100%;
     position: absolute;
     top: 0;
     right: 0;

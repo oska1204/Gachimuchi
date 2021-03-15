@@ -247,3 +247,14 @@ vp.addEventListener('mouseleave', () => {
 })
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
+
+const info = document.querySelector('.info')
+
+window.toggle = function () {
+    const state = Array.from(document.body.children).includes(vp)
+    if (state) {
+        info.append(vp)
+    } else {
+        document.body.prepend(vp)
+    }
+}
