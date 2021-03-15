@@ -13,8 +13,10 @@ const indexDOM = new JSDOM(index)
 const gachiHTML = gachiDOM.window.document.querySelector('tbody').innerHTML
 const todoHTML = todoDOM.window.document.querySelector('tbody').innerHTML
 
-indexDOM.window.document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
+const document = indexDOM.window.document
 
-indexDOM.window.document.querySelectorAll('[src="/public/img/youtube-logo.png"]').forEach(e => e.src = 'images/youtube-logo.png')
+document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
 
-fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + indexDOM.window.document.documentElement.outerHTML)
+document.querySelectorAll('[src="/public/img/youtube-logo.png"]').forEach(img => img.src = 'images/youtube-logo.png')
+
+fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + document.documentElement.outerHTML)
