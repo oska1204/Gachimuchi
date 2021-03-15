@@ -1,6 +1,18 @@
 const express = require('express')
 const youtubedl = require('youtube-dl')
-const { execSync } = require('child_process')
+const { execSync, exec } = require('child_process')
+const fs = require('fs')
+fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
+    const curTime = Date.now()
+    const modTime = stats.mtimeMs
+    const diffTimeMs = curTime - modTime
+    const diffTimeSec = diffTimeMs / 1000
+    const diffTimeSecFloored = Math.floor(diffTimeSec)
+    const hour = 3600
+    if (diffTimeSecFloored > hour) {
+        exec('node node_modules/youtube-dl/scripts/download')
+    }
+})
 
 const app = express()
 const port = 3000
@@ -82,15 +94,6 @@ app.listen(port, () => {
 })
 
 app.use(express.static('dist'))
-
-// exec('start chrome -incognito http://localhost:3000', function (err, stdout, stderr) {
-//     if (err)
-//         exec('start http://127.0.0.1:3000', function (err, stdout, stderr) {
-//             if (err) {
-//                 console.error(err)
-//             }
-//         })
-// })
 
 try {
     execSync('start chrome -incognito http://localhost:3000')
