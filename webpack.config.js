@@ -72,7 +72,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-        assetModuleFilename: 'images/[hash][ext][query]',
+        assetModuleFilename: e => `images${e.module.rawRequest.substr(1)}`,
     },
 
     module: {
@@ -93,7 +93,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/i,
-                type: 'asset',
+                type: 'asset/resource',
             },
             {
                 test: /\.js$/,

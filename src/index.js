@@ -1,3 +1,11 @@
+import './styles/style.css'
+const allFiles = (ctx => {
+    let keys = ctx.keys();
+    let values = keys.map(ctx);
+    return keys.reduce((o, k, i) => { o[k] = values[i]; return o; }, {});
+})(require.context('./images', true, /.*/));
+console.log(allFiles)
+
 const sndcld = url => `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
 	src="https://w.soundcloud.com/player/?url=${url}&auto_play=true"></iframe>`
 const ytbe = url => `<iframe src="https://www.youtube.com/embed/${url.slice(url.lastIndexOf('/') + 1)}?autoplay=1"></iframe>`
