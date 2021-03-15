@@ -57,19 +57,19 @@ let videos = []
 let past = 0
 let index = 0
 let currentSong = 0
-index = urls.indexOf(randomVideoUrl())
-function randomVideo() {
-    nextVideo(randomVideoUrl())
-}
-function randomVideoUrl() {
+window.randomVideoUrl = function () {
     const rnd = Math.floor(Math.random() * urls.length)
     // const time = parseInt(Date.now() / 1000)
     // const rnd = parseInt(time.toString() + index) % urls.length
     // console.log(time, new Date(time * 1000), time.toString() + index, index, rnd, urls[rnd])
     return urls[rnd]
 }
+index = urls.indexOf(randomVideoUrl())
+window.randomVideo = function () {
+    nextVideo(randomVideoUrl())
+}
 const text = document.querySelector('.text')
-async function nextVideo(reqUrl = '') {
+window.nextVideo = async function (reqUrl = '') {
     vp.hidden = false
     links = []
     videos = []
@@ -153,7 +153,7 @@ async function nextVideo(reqUrl = '') {
     v.load()
     a.play()
 }
-const prevVideo = function () {
+window.prevVideo = function () {
     index === 0
         ? index = urls.length - 1
         : index--
@@ -212,7 +212,7 @@ document.addEventListener('click', e => {
 })
 document.body.style.display = ''
 let cancel
-function enrollPause(func = nextVideo, time = 1000) {
+window.enrollPause = function (func = nextVideo, time = 1000) {
     clearTimeout(cancel)
     cancel = setTimeout(() => {
         func()
