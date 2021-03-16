@@ -1,8 +1,8 @@
 import './styles/style.css'
 
 const appBtn = document.querySelector('#app')
-if (name !== 'Gachimuchi')
-    appBtn.style.display = ''
+if (window.name !== 'Gachimuchi')
+    appBtn.hidden = false
 appBtn.addEventListener('click', () => {
     open(location, 'Gachimuchi', '.')
 })
@@ -210,7 +210,8 @@ document.addEventListener('click', e => {
 
     }
 })
-document.body.style.display = ''
+const scrollWrapper = document.querySelector('.scroll-wrapper')
+scrollWrapper.classList.remove('loading')
 let cancel
 window.enrollPause = function (func = nextVideo, time = 1000) {
     clearTimeout(cancel)

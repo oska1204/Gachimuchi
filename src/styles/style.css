@@ -10,8 +10,8 @@ html::-webkit-scrollbar {
 }
 
 .info {
-	display: grid;
-	grid-template-columns: 50% 50%;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
 .info > .video-player {
@@ -96,4 +96,12 @@ img.reupload {
     height: 18px;
     width: 20px;
     cursor: pointer;
+}
+
+.loading {
+    cursor: wait;
+}
+
+.loading > #table {
+    pointer-events: none;
 }
