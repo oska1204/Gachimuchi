@@ -95,16 +95,16 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg)$/i,
                 type: 'asset/resource',
             },
-            // {
-            //     test: /\.js$/,
-            //     exclude: /node_modules/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //         options: {
-            //             cacheDirectory: true,
-            //         },
-            //     },
-            // },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                    },
+                },
+            },
         ],
     },
 

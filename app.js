@@ -9,7 +9,7 @@ fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
     const diffTimeSec = diffTimeMs / 1000
     const diffTimeSecFloored = Math.floor(diffTimeSec)
     const hour = 3600
-    if (diffTimeSecFloored > hour) {
+    if (diffTimeSecFloored > hour * 5) {
         exec('node node_modules/youtube-dl/scripts/download')
     }
 })
