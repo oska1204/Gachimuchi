@@ -2,13 +2,6 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/style.css'
 
-const appBtn = document.querySelector('#app')
-if (window.name !== 'Gachimuchi')
-    appBtn.hidden = false
-appBtn.addEventListener('click', () => {
-    open(location, 'Gachimuchi', '.')
-})
-
 const allFiles = (ctx => {
     let keys = ctx.keys();
     let values = keys.map(ctx);
