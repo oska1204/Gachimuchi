@@ -15,6 +15,12 @@ const ytbe = url => `<iframe src="https://www.youtube.com/embed/${url.slice(url.
 const blbl = url => `<iframe src="https://player.bilibili.com/player.html?aid=${url.slice(url.lastIndexOf('av') + 2)}&autoplay=1"></iframe>`
 
 
+const appBtn = document.querySelector('#app')
+if (window.name === 'Gachimuchi')
+    appBtn.hidden = true
+window.appBtnFunc = () => {
+    open(location, 'Gachimuchi', '.')
+}
 const urls = Array.from(document.querySelectorAll('[field="Name"] a'))
 let v = document.querySelector('#video')
 let a = document.querySelector('#audio')
