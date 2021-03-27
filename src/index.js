@@ -70,6 +70,9 @@ index = urls.indexOf(randomVideoUrl())
 window.randomVideo = function () {
     nextVideo(randomVideoUrl())
 }
+window.reloadVideo = function () {
+    nextVideo(urls[currentSong])
+}
 const text = document.querySelector('.text')
 window.nextVideo = async function (reqUrl = '') {
     vp.hidden = false
