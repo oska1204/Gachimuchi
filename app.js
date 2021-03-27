@@ -21,15 +21,16 @@ let id = 0
 app.post('/', (req, res) => {
     const searchParams = new URLSearchParams(req._parsedUrl.search)
     const url = searchParams.get('url')
+    const proxy = searchParams.get('proxy')
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    youtubedl.exec(url, ['-j'], {}, function (err, out) {
+    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy ? `--proxy ${proxy}` : ''} "${url}"`, function (err, out) {
         if (uniqId !== id)
             res.end('"new request"')
         if (err)
             res.end('"old"')
-        let json
+        let json = {}
         try {
             json = JSON.parse(out)
         } catch (error) {

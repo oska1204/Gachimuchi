@@ -54,6 +54,10 @@ video {
     max-height: 100vh;
 }
 
+.buttons-wrapper label {
+    display: inline-block;
+}
+
 #next {
     margin-bottom: 5px;
 }
