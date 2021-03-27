@@ -2,11 +2,22 @@ const express = require('express')
 const youtubedl = require('youtube-dl')
 const { execSync, exec } = require('child_process')
 const fs = require('fs')
-let proxy = ''
+let config = require('./default.config.js')
 try {
-    proxy = require('./proxy')
+    config = {
+        ...config,
+        ...require('./config'),
+    }
 } catch (error) {
 }
+
+const { 
+    autoOpenBrowser,
+    chromeDefault,
+    chromeIncognito,
+    proxy, 
+    proxyEnabled,
+} = config
 
 fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
     const curTime = Date.now()
@@ -30,7 +41,7 @@ app.post('/', (req, res) => {
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
         if (uniqId !== id)
             res.end('"new request"')
         if (err)
@@ -100,8 +111,18 @@ app.listen(port, () => {
 
 app.use(express.static('dist'))
 
-try {
-    execSync('start chrome -incognito http://localhost:3000')
-} catch (error) {
-    execSync('start http://127.0.0.1:3000')
+
+if (autoOpenBrowser) {
+    if (chromeDefault) {
+        try {
+            execSync(`start chrome ${chromeIncognito ? '-incognito' : ''} http://localhost:3000`)
+        } catch (error) {
+            execSync('start http://127.0.0.1:3000')
+        }
+    } else {
+        try {
+            execSync('start http://127.0.0.1:3000')
+        } catch (error) {
+        }
+    }
 }

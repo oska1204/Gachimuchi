@@ -13,11 +13,14 @@ node app
 ```
 After that open http://127.0.0.1:3000 in a browser (or http://localhost:3000)
 
-## Proxy
+## Config
+Make a copy of `default.config.js` and rename it to `config.js`.
+
+Changes require you to relaunch `myapp.exe`, or close the old `node app`, and start a new.
+
+### Proxy
 You can add a proxy for the youtube-dl request.
 
-Add a `proxy.js` file in the root directory, and write the following code.
 ```js
-module.exports = 'socks5://127.0.0.1:<port>'
+proxy: 'socks5://127.0.0.1:<port>'
 ```
-Now relaunch `myapp.exe`, or close the old `node app`, and start a new.
