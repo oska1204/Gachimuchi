@@ -24,9 +24,7 @@ proxyInput.addEventListener('input', function() {
 const appBtn = document.querySelector('#app')
 if (window.name === 'Gachimuchi')
     appBtn.hidden = true
-window.appBtnFunc = () => {
-    open(location, 'Gachimuchi', '.')
-}
+
 const urls = Array.from(document.querySelectorAll('[field="Name"] a'))
 let v = document.querySelector('#video')
 let a = document.querySelector('#audio')
