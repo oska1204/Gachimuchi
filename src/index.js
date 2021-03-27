@@ -15,12 +15,6 @@ const ytbe = url => `<iframe src="https://www.youtube.com/embed/${url.slice(url.
 const blbl = url => `<iframe src="https://player.bilibili.com/player.html?aid=${url.slice(url.lastIndexOf('av') + 2)}&autoplay=1"></iframe>`
 
 
-const proxyInput = document.querySelector('#proxy-input')
-let proxy = proxyInput.value
-proxyInput.addEventListener('input', function() {
-    proxy = this.value
-})
-
 const appBtn = document.querySelector('#app')
 if (window.name === 'Gachimuchi')
     appBtn.hidden = true
@@ -124,12 +118,12 @@ window.nextVideo = async function (reqUrl = '') {
         old = null
     }
     clearTimeout(cancel)
-    let response = await fetch(`?url=${url}&proxy=${proxy}`, { method: 'post' })
+    let response = await fetch(`?url=${url}`, { method: 'post' })
     let json = await response.json()
     window.testUrl = url
     clearTimeout(cancel)
     if (json === 'old' && old) {
-        response = await fetch(`?url=${old}&proxy=${proxy}`, { method: 'post' })
+        response = await fetch(`?url=${old}`, { method: 'post' })
         json = await response.json()
         window.testUrl = old
     }

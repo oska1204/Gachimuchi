@@ -2,6 +2,12 @@ const express = require('express')
 const youtubedl = require('youtube-dl')
 const { execSync, exec } = require('child_process')
 const fs = require('fs')
+let proxy = ''
+try {
+    proxy = require('./proxy')
+} catch (error) {
+}
+
 fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
     const curTime = Date.now()
     const modTime = stats.mtimeMs
@@ -21,11 +27,10 @@ let id = 0
 app.post('/', (req, res) => {
     const searchParams = new URLSearchParams(req._parsedUrl.search)
     const url = searchParams.get('url')
-    const proxy = searchParams.get('proxy')
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy ? `--proxy ${proxy}` : ''} "${url}"`, function (err, out) {
+    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
         if (uniqId !== id)
             res.end('"new request"')
         if (err)
