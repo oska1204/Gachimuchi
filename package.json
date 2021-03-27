@@ -19,6 +19,7 @@
   "dependencies": {
     "core-js": "^3.9.1",
     "express": "^4.17.1",
+    "flv.js": "^1.5.0",
     "regenerator-runtime": "^0.13.7",
     "youtube-dl": "^3.0.2"
   },

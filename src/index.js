@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/style.css'
+import flvjs from 'flv.js'
 
 const allFiles = (ctx => {
     let keys = ctx.keys();
@@ -117,6 +118,25 @@ window.nextVideo = async function (reqUrl = '') {
         response = await fetch('?url=' + old, { method: 'post' })
         json = await response.json()
     }
+    const pause = (elm) => {
+        elm.pause()
+        elm.removeAttribute('src')
+        elm.innerHTML = '';
+        elm.load()
+    }
+    pause(a)
+    pause(v)
+    a.poster = json.thumbnail
+    if (flvjs.isSupported() && json.ext === 'flv') {
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: json.audios.filter(e=>e)[0]
+        });
+        flvPlayer.attachMediaElement(a);
+        flvPlayer.load();
+        flvPlayer.play();
+        return
+    }
     try {
         links.push(...json.audios)
     } catch (error) {
@@ -127,13 +147,6 @@ window.nextVideo = async function (reqUrl = '') {
     }
     videos = videos.filter(e => e)
     links = links.filter(e => e)
-    const pause = (elm) => {
-        elm.pause()
-        elm.innerHTML = ''
-        elm.load()
-    }
-    pause(a)
-    pause(v)
     const sourceElms = (elm, srcs) => {
         srcs.forEach(src => {
             const source = document.createElement('source')
@@ -143,7 +156,6 @@ window.nextVideo = async function (reqUrl = '') {
     }
     sourceElms(a, links)
     sourceElms(v, videos)
-    a.poster = json.thumbnail
     a.load()
     v.load()
     a.play()

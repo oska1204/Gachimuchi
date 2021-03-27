@@ -29,18 +29,17 @@ app.post('/', (req, res) => {
             res.end('"new request"')
         if (err)
             res.end('"old"')
-        const obj = {}
-        obj.videos = []
-        obj.audios = []
-        obj.thumbnail = ''
         let json
         try {
             json = JSON.parse(out)
         } catch (error) {
         }
-        try {
-            obj.thumbnail = json.thumbnail
-        } catch (error) {
+        const obj = {
+            videos: [],
+            audios: [],
+            thumbnail: '',
+            ext: json.ext,
+            thumbnail: json.thumbnail,
         }
         try {
             if (json.extractor === 'youtube') {
