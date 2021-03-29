@@ -16,10 +16,20 @@ const { todoListFetch } = require('./todo-list');
     const todoDOM = new JSDOM(todoList)
     const indexDOM = new JSDOM(index)
 
-    const gachiHTML = gachiDOM.window.document.querySelector('tbody').innerHTML
-    const todoHTML = todoDOM.window.document.querySelector('tbody').innerHTML
-
+    const gachiDocument = gachiDOM.window.document
+    const todoDocument = todoDOM.window.document
     const document = indexDOM.window.document
+
+    const trTemplate = document.createElement('template')
+    trTemplate.innerHTML = '<td field="🔁"></td>'
+
+    todoDocument.querySelectorAll('[field="Added to list"]').forEach(e => {
+        e.parentNode.prepend(trTemplate.content.cloneNode(true))
+        e.remove()
+    })
+
+    const gachiHTML = gachiDocument.querySelector('tbody').innerHTML
+    const todoHTML = todoDocument.querySelector('tbody').innerHTML
 
     document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
 
