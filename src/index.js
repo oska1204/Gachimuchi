@@ -139,7 +139,7 @@ window.nextVideo = async function (reqUrl = '') {
     if (flvjs.isSupported() && json.ext === 'flv') {
         var flvPlayer = flvjs.createPlayer({
             type: 'flv',
-            url: json.audios.filter(e=>e)[0]
+            url: json.audios.filter(e => e)[0]
         });
         flvPlayer.attachMediaElement(a);
         flvPlayer.load();
@@ -275,3 +275,7 @@ window.toggle = function () {
         document.body.prepend(vp)
     }
 }
+
+const tbody = document.querySelector('tbody')
+
+setTimeout(() => tbody.setAttribute('visible', ''))
