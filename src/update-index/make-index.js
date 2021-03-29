@@ -20,12 +20,18 @@ const { todoListFetch } = require('./todo-list');
     const todoDocument = todoDOM.window.document
     const document = indexDOM.window.document
 
-    const trTemplate = document.createElement('template')
-    trTemplate.innerHTML = '<td field="🔁"></td>'
+    const trGachi = document.createElement('template')
+    const trTodo = document.createElement('template')
+    
+    trGachi.innerHTML = '<td field="Added to list"></td>'
+    trTodo.innerHTML = '<td field="🔁"></td>'
 
-    todoDocument.querySelectorAll('[field="Added to list"]').forEach(e => {
-        e.parentNode.prepend(trTemplate.content.cloneNode(true))
-        e.remove()
+    gachiDocument.querySelectorAll('[field="Author"]').forEach(td=>{
+        td.after(trGachi.content.cloneNode(true))
+    })
+
+    todoDocument.querySelectorAll('[field="Added to list"]').forEach(td => {
+        td.parentNode.prepend(trTodo.content.cloneNode(true))
     })
 
     const gachiHTML = gachiDocument.querySelector('tbody').innerHTML
