@@ -87,6 +87,10 @@ video {
     pointer-events: none;
 }
 
+#table {
+    width: 100%;
+}
+
 tr {
     line-height: 1.8;
 }
@@ -101,6 +105,7 @@ tbody:not([visible]) tr:nth-of-type(1n + 100) {
 
 td:first-of-type {
     padding-left: 8px;
+    width: 1px;
 }
 
 td:last-of-type {
