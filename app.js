@@ -49,10 +49,14 @@ app.post('/', (req, res) => {
         id = 0
     const uniqId = ++id
     exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
-        if (uniqId !== id)
+        if (uniqId !== id) {
             res.end('"new request"')
-        if (err)
+            return
+        }
+        if (err) {
             res.end('"old"')
+            return
+        }
         let json = {}
         try {
             json = JSON.parse(out)
@@ -87,6 +91,7 @@ app.post('/', (req, res) => {
                 audiosSorted.forEach(e => obj.audios.push(e.fragment_base_url, e.url))
                 videosSorted.forEach(e => obj.videos.push(e.fragment_base_url, e.url))
                 res.end(JSON.stringify(obj))
+                return
             }
         } catch (error) {
         }
