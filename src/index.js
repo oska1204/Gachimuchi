@@ -94,7 +94,7 @@ window.nextVideo = async function (reqUrl = '') {
         if (item)
             queueUrl = true
         else
-            rndUrl = c.checked ? randomVideoUrl() : urls[++index] || urls[0]
+            rndUrl = c.checked ? await randomVideoUrl() : urls[++index] || urls[0]
     }
     let url = (reqUrl || rndUrl)
     if (!queueUrl)
