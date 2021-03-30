@@ -57,16 +57,23 @@ let videos = []
 let past = 0
 let index = 0
 let currentSong = 0
-window.randomVideoUrl = function () {
-    const rnd = Math.floor(Math.random() * urls.length)
+window.randomVideoUrl = async function () {
+    // const rnd = Math.floor(Math.random() * urls.length)
+    const rndRes = await fetch(`rnd`, { method: 'post' })
+    const rndStr = await rndRes.text()
+    const rndInt = parseInt(rndStr)
+    const rnd = rndInt % urls.length
     // const time = parseInt(Date.now() / 1000)
     // const rnd = parseInt(time.toString() + index) % urls.length
     // console.log(time, new Date(time * 1000), time.toString() + index, index, rnd, urls[rnd])
     return urls[rnd]
-}
-index = urls.indexOf(randomVideoUrl())
-window.randomVideo = function () {
-    nextVideo(randomVideoUrl())
+};
+(async ()=>{
+    const videoUrl = await randomVideoUrl()
+    index = currentSong = urls.indexOf(videoUrl)
+})()
+window.randomVideo = async function () {
+    nextVideo(await randomVideoUrl())
 }
 window.reloadVideo = function () {
     nextVideo(urls[currentSong])

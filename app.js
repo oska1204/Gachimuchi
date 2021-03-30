@@ -2,6 +2,8 @@ const express = require('express')
 const youtubedl = require('youtube-dl')
 const { execSync, exec } = require('child_process')
 const fs = require('fs')
+const { randomInt } = require('crypto')
+
 let config = require('./default.config.js')
 try {
     config = {
@@ -11,11 +13,11 @@ try {
 } catch (error) {
 }
 
-const { 
+const {
     autoOpenBrowser,
     chromeDefault,
     chromeIncognito,
-    proxy, 
+    proxy,
     proxyEnabled,
 } = config
 
@@ -34,6 +36,11 @@ fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
 const app = express()
 const port = 3000
 let id = 0
+
+app.post('/rnd', (req, res) => {
+    const rnd = randomInt(2 ** 20)
+    res.end(rnd.toString())
+})
 
 app.post('/', (req, res) => {
     const searchParams = new URLSearchParams(req._parsedUrl.search)
