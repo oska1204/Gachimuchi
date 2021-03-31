@@ -118,3 +118,15 @@ img.reupload {
     width: 20px;
     cursor: pointer;
 }
+
+[field="Published"] {
+	white-space: nowrap;
+}
+
+[field="Added to list"] {
+	display: none;
+}
+
+thead th:nth-of-type(5) {
+	display: none;
+}
