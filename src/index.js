@@ -19,7 +19,7 @@ const appBtn = document.querySelector('#app')
 if (window.name === 'Gachimuchi')
     appBtn.hidden = true
 
-const urls = Array.from(document.querySelectorAll('[field="Name"] a'))
+window.urls = Array.from(document.querySelectorAll('[field="Name"] a'))
 let v = document.querySelector('#video')
 let a = document.querySelector('#audio')
 const vp = document.querySelector('.video-player')
@@ -68,7 +68,7 @@ window.randomVideoUrl = async function () {
     // console.log(time, new Date(time * 1000), time.toString() + index, index, rnd, urls[rnd])
     return urls[rnd]
 };
-(async ()=>{
+(async () => {
     const videoUrl = await randomVideoUrl()
     index = currentSong = urls.indexOf(videoUrl)
 })()
@@ -111,7 +111,7 @@ window.nextVideo = async function (reqUrl = '') {
         <p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
     console.log(Array.from(document.querySelector('.text').children).map((e, i) => i ? e.textContent : e.textContent.replace(/\n/, ' ').replace(/\t*/g, '') + '	' + e.firstElementChild.href).join('\n'))
     let old
-    if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\//)) {
+    if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\/?/)) {
         old = url.href
         try {
             url = 'supinic.com' + url.parentElement.parentElement.querySelector('[field="🔁"]').firstElementChild.getAttribute('href') || url.href
@@ -271,6 +271,7 @@ vp.addEventListener('mouseleave', () => {
 })
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
+v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 ? a.removeAttribute('poster') : null)
 
 const info = document.querySelector('.info')
 
