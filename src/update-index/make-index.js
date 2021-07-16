@@ -22,9 +22,11 @@ const { todoListFetch } = require('./todo-list');
 
     const trGachi = document.createElement('template')
     const trTodo = document.createElement('template')
+    const trFavs = document.createElement('template')
     
     trGachi.innerHTML = '<td field="Added to list"></td>'
     trTodo.innerHTML = '<td field="🔁"></td>'
+    trFavs.innerHTML = '<td field="Favs"></td>'
 
     gachiDocument.querySelectorAll('[field="Author"]').forEach(td=>{
         td.after(trGachi.content.cloneNode(true))
@@ -32,6 +34,7 @@ const { todoListFetch } = require('./todo-list');
 
     todoDocument.querySelectorAll('[field="Added to list"]').forEach(td => {
         td.parentNode.prepend(trTodo.content.cloneNode(true))
+        td.after(trFavs.content.cloneNode(true))
     })
 
     const gachiHTML = gachiDocument.querySelector('tbody').innerHTML
@@ -40,6 +43,10 @@ const { todoListFetch } = require('./todo-list');
     document.querySelector('#table > tbody').innerHTML = gachiHTML + todoHTML
 
     document.querySelectorAll('[src="/public/img/youtube-logo.png"]').forEach(img => img.src = 'images/youtube-logo.png')
+
+    document.querySelectorAll('.searchables').forEach(td=>{
+        td.remove()
+    })
 
     fs.writeFileSync('src/index.html', '<!DOCTYPE html>' + document.documentElement.outerHTML)
 })()
