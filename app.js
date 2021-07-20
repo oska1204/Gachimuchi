@@ -48,7 +48,7 @@ app.post('/', (req, res) => {
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    exec(`"node_modules/youtube-dl/bin/youtube-dl" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+    exec(`"yt-dlp" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
         if (uniqId !== id) {
             res.end('"new request"')
             return
