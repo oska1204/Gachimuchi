@@ -19,19 +19,29 @@ const {
     chromeIncognito,
     proxy,
     proxyEnabled,
+    useYtdlp,
 } = config
 
-fs.stat('node_modules/youtube-dl/bin/youtube-dl.exe', function (err, stats) {
-    const curTime = Date.now()
-    const modTime = stats.mtimeMs
-    const diffTimeMs = curTime - modTime
-    const diffTimeSec = diffTimeMs / 1000
-    const diffTimeSecFloored = Math.floor(diffTimeSec)
-    const hour = 3600
-    if (diffTimeSecFloored > hour * 5) {
-        exec('node node_modules/youtube-dl/scripts/download')
-    }
-})
+function update(path, download) {
+    fs.stat(path, function (err, stats) {
+        try {
+            const curTime = Date.now()
+            const modTime = stats.mtimeMs
+            const diffTimeMs = curTime - modTime
+            const diffTimeSec = diffTimeMs / 1000
+            const diffTimeSecFloored = Math.floor(diffTimeSec)
+            const hour = 3600
+            if (diffTimeSecFloored > hour * 5) {
+                exec(download)
+            }
+        } catch (error) {
+            exec(download)
+        }
+    })
+}
+
+update('node_modules/youtube-dl/bin/youtube-dl.exe', 'node node_modules/youtube-dl/scripts/download')
+update('node_modules/bin/yt-dlp.exe', 'node download')
 
 const app = express()
 const port = 3000
@@ -48,7 +58,7 @@ app.post('/', (req, res) => {
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    exec(`"yt-dlp" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+    exec(`"${useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
         if (uniqId !== id) {
             res.end('"new request"')
             return
