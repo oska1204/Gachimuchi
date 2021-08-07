@@ -271,7 +271,7 @@ vp.addEventListener('mouseleave', () => {
 })
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
-v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 ? a.removeAttribute('poster') : null)
+v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 && v.childElementCount ? a.removeAttribute('poster') : null)
 
 const info = document.querySelector('.info')
 
