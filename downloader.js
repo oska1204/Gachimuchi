@@ -35,7 +35,6 @@ function download (url, callback) {
 
     const url = res.headers.location
     const downloadFile = request.get(url)
-    console.log(url)
     const newVersion = /github\.com\/yt-dlp\/yt-dlp\/releases\/download\/(\d{4}\.\d\d\.\d\d(\.\d)?)\/yt-dlp/.exec(
       url
     )[1]

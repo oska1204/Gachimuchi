@@ -52,6 +52,73 @@ app.post('/rnd', (req, res) => {
     res.end(rnd.toString())
 })
 
+function reqst(req, res, err, out, uniqId, id) {
+    if (uniqId !== id) {
+        res.end('"new request"')
+        return
+    }
+    if (err) {
+        return new Error()
+    }
+    let json = {}
+    try {
+        json = JSON.parse(out)
+    } catch (error) {
+    }
+    const obj = {
+        videos: [],
+        audios: [],
+        thumbnail: '',
+        ext: json.ext,
+        thumbnail: json.thumbnail,
+    }
+    try {
+        if (json.extractor === 'youtube') {
+            let [a, v] = json.requested_formats
+            if (a.acodec === 'none')
+                [v, a] = [a, v]
+            obj.name = 'youtube'
+            obj.audios.push(a.fragment_base_url, a.url)
+            obj.videos.push(v.fragment_base_url, v.url)
+            const audios = []
+            const videos = []
+            json.formats.forEach(e => {
+                if (e.acodec !== 'none') {
+                    audios.push(e)
+                } else if (e.vcodec !== 'none') {
+                    videos.push(e)
+                }
+            })
+            const audiosSorted = audios.sort((a, b) => b.abr - a.abr)
+            const videosSorted = videos.sort((a, b) => b.tbr - a.tbr)
+            audiosSorted.forEach(e => obj.audios.push(e.fragment_base_url, e.url))
+            videosSorted.forEach(e => obj.videos.push(e.fragment_base_url, e.url))
+            res.end(JSON.stringify(obj))
+            return
+        }
+    } catch (error) {
+    }
+    try {
+        try {
+            json.requested_formats.forEach(e => {
+                if (e.acodec === 'none')
+                    return
+                res.type('json')
+                obj.audios.push(e.fragment_base_url, e.url)
+            })
+        } catch (error) {
+        }
+        let highest = json.formats[0]
+        json.formats.forEach(e => {
+            if (e.abr && e.abr >= highest.abr)
+                highest = e
+        })
+        obj.audios.push(highest.fragment_base_url, highest.url)
+    } catch (error) {
+    }
+    res.end(JSON.stringify(obj))
+}
+
 app.post('/', (req, res) => {
     const searchParams = new URLSearchParams(req._parsedUrl.search)
     const url = searchParams.get('url')
@@ -59,71 +126,14 @@ app.post('/', (req, res) => {
         id = 0
     const uniqId = ++id
     exec(`"${useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
-        if (uniqId !== id) {
-            res.end('"new request"')
-            return
-        }
-        if (err) {
-            res.end('"old"')
-            return
-        }
-        let json = {}
-        try {
-            json = JSON.parse(out)
-        } catch (error) {
-        }
-        const obj = {
-            videos: [],
-            audios: [],
-            thumbnail: '',
-            ext: json.ext,
-            thumbnail: json.thumbnail,
-        }
-        try {
-            if (json.extractor === 'youtube') {
-                let [a, v] = json.requested_formats
-                if (a.acodec === 'none')
-                    [v, a] = [a, v]
-                obj.name = 'youtube'
-                obj.audios.push(a.fragment_base_url, a.url)
-                obj.videos.push(v.fragment_base_url, v.url)
-                const audios = []
-                const videos = []
-                json.formats.forEach(e => {
-                    if (e.acodec !== 'none') {
-                        audios.push(e)
-                    } else if (e.vcodec !== 'none') {
-                        videos.push(e)
-                    }
-                })
-                const audiosSorted = audios.sort((a, b) => b.abr - a.abr)
-                const videosSorted = videos.sort((a, b) => b.tbr - a.tbr)
-                audiosSorted.forEach(e => obj.audios.push(e.fragment_base_url, e.url))
-                videosSorted.forEach(e => obj.videos.push(e.fragment_base_url, e.url))
-                res.end(JSON.stringify(obj))
-                return
-            }
-        } catch (error) {
-        }
-        try {
-            try {
-                json.requested_formats.forEach(e => {
-                    if (e.acodec === 'none')
-                        return
-                    res.type('json')
-                    obj.audios.push(e.fragment_base_url, e.url)
-                })
-            } catch (error) {
-            }
-            let highest = json.formats[0]
-            json.formats.forEach(e => {
-                if (e.abr && e.abr >= highest.abr)
-                    highest = e
-            })
-            obj.audios.push(highest.fragment_base_url, highest.url)
-        } catch (error) {
-        }
-        res.end(JSON.stringify(obj))
+        if (!err)
+            reqst(req, res, err, out, uniqId, id)
+        else
+            exec(`"${!useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+                if (err)
+                    res.end('"old"')
+                reqst(req, res, err, out, uniqId, id)
+            });
     });
 })
 
