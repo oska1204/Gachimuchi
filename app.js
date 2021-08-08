@@ -130,9 +130,11 @@ app.post('/', (req, res) => {
             reqst(req, res, err, out, uniqId, id)
         else
             exec(`"${!useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
-                if (err)
+                if (err) {
                     res.end('"old"')
-                reqst(req, res, err, out, uniqId, id)
+                    return
+                } else
+                    reqst(req, res, err, out, uniqId, id)
             });
     });
 })
