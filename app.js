@@ -70,6 +70,7 @@ function reqst(req, res, err, out, uniqId, id) {
         audios: [],
         thumbnail: '',
         ext: json.ext,
+        format: json.format ?? '',
         thumbnail: json.thumbnail,
     }
     try {
@@ -93,6 +94,14 @@ function reqst(req, res, err, out, uniqId, id) {
             const videosSorted = videos.sort((a, b) => b.tbr - a.tbr)
             audiosSorted.forEach(e => obj.audios.push(e.fragment_base_url, e.url))
             videosSorted.forEach(e => obj.videos.push(e.fragment_base_url, e.url))
+            res.end(JSON.stringify(obj))
+            return
+        }
+    } catch (error) {
+    }
+    try {
+        if (json.extractor === 'vimeo') {
+            obj.audios.push(json.url)
             res.end(JSON.stringify(obj))
             return
         }

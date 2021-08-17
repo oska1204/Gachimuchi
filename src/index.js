@@ -2,6 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/style.css'
 import flvjs from 'flv.js'
+import Hls from 'hls.js'
 
 const allFiles = (ctx => {
     let keys = ctx.keys();
@@ -151,6 +152,18 @@ window.nextVideo = async function (reqUrl = '') {
         flvPlayer.attachMediaElement(a);
         flvPlayer.load();
         flvPlayer.play();
+        return
+    }
+    if (Hls.isSupported() && json.format.startsWith('hls')) {
+        try {
+            var hls = new Hls();
+            hls.loadSource(json.audios[0]);
+            hls.attachMedia(a);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                a.play();
+            });
+        } catch (error) {
+        }
         return
     }
     try {
