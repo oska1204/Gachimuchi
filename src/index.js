@@ -10,11 +10,10 @@ const allFiles = (ctx => {
     return keys.reduce((o, k, i) => { o[k] = values[i]; return o; }, {});
 })(require.context('./images', true, /.*/));
 
-const sndcld = url => `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-	src="https://w.soundcloud.com/player/?url=${url}&auto_play=true"></iframe>`
-const ytbe = url => `<iframe src="https://www.youtube.com/embed/${url.slice(url.lastIndexOf('/') + 1)}?autoplay=1"></iframe>`
-const blbl = url => `<iframe src="https://player.bilibili.com/player.html?aid=${url.slice(url.lastIndexOf('av') + 2)}&autoplay=1"></iframe>`
-
+const sndcld = url => `https://w.soundcloud.com/player/?url=${url}&auto_play=true`
+const ytbe = url => `https://www.youtube.com/embed/${url.slice(url.lastIndexOf('/') + 1)}?autoplay=1`
+const blbl = url => `https://player.bilibili.com/player.html?aid=${url.slice(url.lastIndexOf('av') + 2)}&autoplay=1`
+const nico = url => `https://embed.nicovideo.jp/watch/${url.match(/watch\/(\w\w\d+)/)?.[1]}`
 
 const appBtn = document.querySelector('#app')
 if (window.name === 'Gachimuchi')
@@ -24,6 +23,9 @@ window.urls = Array.from(document.querySelectorAll('[field="Name"] a'))
 let v = document.querySelector('#video')
 let a = document.querySelector('#audio')
 const vp = document.querySelector('.video-player')
+const iframe = document.querySelector('#iframe')
+const c = document.querySelector('#random-checkbox')
+const iframeCbx = document.querySelector('#iframe-checkbox')
 v.addEventListener('play', () => {
     syncVideo()
 })
@@ -51,7 +53,6 @@ a.addEventListener('play', () => {
     v.play()
 })
 a.volume = .4
-const c = document.querySelector('[type="checkbox"]')
 const queue = []
 let links = []
 let videos = []
@@ -80,6 +81,25 @@ window.reloadVideo = function () {
     nextVideo(urls[currentSong])
 }
 const text = document.querySelector('.text')
+function iframeNextVideo(requrl) {
+    const setSrc = fn => iframe.src = fn(requrl.href)
+    switch (new URL(requrl).host) {
+        case 'youtu.be':
+        case 'www.youtube.com':
+            setSrc(ytbe)
+            break;
+        case 'www.nicovideo.jp':
+        case 'embed.nicovideo.jp':
+            setSrc(nico)
+            break;
+        case 'www.bilibili.com':
+            setSrc(blbl)
+            break;
+        case 'soundcloud.com':
+            setSrc(sndcld)
+            break;
+    }
+}
 window.nextVideo = async function (reqUrl = '') {
     vp.hidden = false
     links = []
@@ -111,6 +131,10 @@ window.nextVideo = async function (reqUrl = '') {
         <p>Author: ${url.parentNode.parentNode.querySelector('[field="Author"]').innerHTML}</p>
         <p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
     console.log(Array.from(document.querySelector('.text').children).map((e, i) => i ? e.textContent : e.textContent.replace(/\n/, ' ').replace(/\t*/g, '') + '	' + e.firstElementChild.href).join('\n'))
+    if (iframeCbx.checked) {
+        iframeNextVideo(reqUrl)
+        return
+    }
     let old
     if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\/?/)) {
         old = url.href
@@ -285,6 +309,17 @@ vp.addEventListener('mouseleave', () => {
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 && v.childElementCount ? a.removeAttribute('poster') : null)
+iframeCbx.addEventListener('change', e => {
+    if (iframeCbx.checked) {
+        a.hidden = true
+        v.hidden = true
+        iframe.hidden = false
+    } else {
+        a.hidden = false
+        v.hidden = false
+        iframe.hidden = true
+    }
+})
 
 const info = document.querySelector('.info')
 

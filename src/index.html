@@ -84,8 +84,9 @@ div.megadank-shift {
 
 <body>
 	<div class="video-player" hidden="">
-		<video id="video" muted="" loop=""></video>
-		<video id="audio" autoplay="" controls="" tabindex="0"></video>
+		<video id="video" muted="" loop="" hidden></video>
+		<video id="audio" autoplay="" controls="" tabindex="0" hidden></video>
+		<iframe id="iframe" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 	</div>
 	<div class="wrapper">
 		<div class="info">
@@ -97,7 +98,8 @@ div.megadank-shift {
 					<button id="reload" onclick="reloadVideo()">Reload</button>
 					<button id="toggle" onclick="toggle()">Toggle</button>
 					<button id="app" onclick="appBtnFunc()">App</button>
-					<label>Random: <input type="checkbox"></label>
+					<label>Random: <input id="random-checkbox" type="checkbox"></label>
+					<label>Iframe: <input id="iframe-checkbox" type="checkbox" checked></label>
 				</div>
 				<div class="text"></div>
 			</div>
