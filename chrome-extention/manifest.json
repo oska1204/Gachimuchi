@@ -1,0 +1,34 @@
+{
+	"name": "gachimuchi",
+	"version": "1.0.0",
+	"description": "gachimuchi gachimuchi",
+	"manifest_version": 2,
+	"background": {
+		"scripts": [
+			"background.js"
+		],
+		"persistent": true
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"http://localhost:3000/*",
+				"http://127.0.0.1:3000/*"
+			],
+			"js": [
+				"content.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"*://embed.nicovideo.jp/*"
+			],
+			"js": [
+				"nico.js"
+			],
+			"run_at": "document_end",
+			"all_frames": true
+		}
+	]
+}

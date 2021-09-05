@@ -161,13 +161,14 @@ window.nextVideo = async function (reqUrl = '') {
         response = await fetch(`?url=${old}`, { method: 'post' })
         json = await response.json()
         window.testUrl = old
-    } else if (url.href.match(/nicovideo/)) {
+    } else if (url.href?.match(/nicovideo/)) {
         iframeNextVideo(url)
         iframe.hidden = false
         v.hidden = true
         a.hidden = true
         return
     }
+    updateIframe()
     const pause = (elm) => {
         elm.pause()
         elm.removeAttribute('src')
@@ -187,7 +188,7 @@ window.nextVideo = async function (reqUrl = '') {
         flvPlayer.play();
         return
     }
-    if (Hls.isSupported() && json.format.startsWith('hls')) {
+    if (Hls.isSupported() && json.format?.startsWith('hls')) {
         try {
             var hls = new Hls();
             hls.loadSource(json.audios[0]);
