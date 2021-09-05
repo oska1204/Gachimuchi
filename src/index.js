@@ -102,7 +102,10 @@ async function iframeNextVideo(url) {
     }
 }
 window.nextVideo = async function (reqUrl = '') {
-    vp.hidden = false
+    if (vp.hidden) {
+        vp.hidden = false
+        scroll(0, 0)
+    }
     links = []
     videos = []
     a.pause()
@@ -155,7 +158,7 @@ window.nextVideo = async function (reqUrl = '') {
     }
     clearTimeout(cancel)
     let response = await fetch(`?url=${url}`, { method: 'post' })
-    let json = await response.json()    
+    let json = await response.json()
     window.testUrl = url
     clearTimeout(cancel)
     if (json === 'old' && old) {
