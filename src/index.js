@@ -81,9 +81,9 @@ window.reloadVideo = function () {
     nextVideo(urls[currentSong])
 }
 const text = document.querySelector('.text')
-function iframeNextVideo(requrl) {
-    const setSrc = fn => iframe.src = fn(requrl.href)
-    switch (new URL(requrl).host) {
+async function iframeNextVideo(url) {
+    const setSrc = fn => iframe.src = fn(url.href)
+    switch (new URL(url).host) {
         case 'youtu.be':
         case 'www.youtube.com':
             setSrc(ytbe)
@@ -132,7 +132,7 @@ window.nextVideo = async function (reqUrl = '') {
         <p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
     console.log(Array.from(document.querySelector('.text').children).map((e, i) => i ? e.textContent : e.textContent.replace(/\n/, ' ').replace(/\t*/g, '') + '	' + e.firstElementChild.href).join('\n'))
     if (iframeCbx.checked) {
-        iframeNextVideo(reqUrl)
+        iframeNextVideo(url)
         return
     }
     let old
