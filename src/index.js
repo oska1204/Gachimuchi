@@ -103,13 +103,12 @@ async function iframeNextVideo(url) {
 }
 window.nextVideo = async function (reqUrl = '') {
     if (vp.hidden) {
+        wrapper.classList.add('full')
         vp.hidden = false
         scroll(0, 0)
     }
     links = []
     videos = []
-    a.pause()
-    v.pause()
     iframe.src = ''
     let queueUrl = false
     let rndUrl
@@ -142,6 +141,8 @@ window.nextVideo = async function (reqUrl = '') {
     } else {
         updateIframe()
     }
+    a.pause()
+    v.pause()
     let old
     if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\/?/)) {
         old = url.href
