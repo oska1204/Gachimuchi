@@ -2,8 +2,8 @@ setTimeout(() => {
     document.querySelector('.unplayed div').click()
 }, 1000)
 
-const realVideo = setInterval(()=>{
-    if (document.querySelector('video').hasAttribute('src')) {
+const realVideo = setInterval(() => {
+    if (document.querySelector('video').duration > 0) {
         start()
         clearInterval(realVideo)
     }
