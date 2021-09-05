@@ -5,4 +5,6 @@ module.exports = {
     proxy: '', // 'socks5://localhost:<port>'
     proxyEnabled: true,
     useYtdlp: true,
+    overwriteProxy: false,
+    overwriteProxyRegex: /(?:)/,
 }

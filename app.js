@@ -20,6 +20,8 @@ const {
     proxy,
     proxyEnabled,
     useYtdlp,
+    overwriteProxy,
+    overwriteProxyRegex,
 } = config
 
 function update(path, download) {
@@ -131,14 +133,17 @@ function reqst(req, res, err, out, uniqId, id) {
 app.post('/', (req, res) => {
     const searchParams = new URLSearchParams(req._parsedUrl.search)
     const url = searchParams.get('url')
+    let overwrite
+    if (url.match(overwriteProxyRegex) && overwriteProxy)
+        overwrite = true
     if (id > 1000000)
         id = 0
     const uniqId = ++id
-    exec(`"${useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+    exec(`"${useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${overwrite || proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
         if (!err)
             reqst(req, res, err, out, uniqId, id)
         else
-            exec(`"${!useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
+            exec(`"${!useYtdlp ? "node_modules/yt-dlp/yt-dlp" : "node_modules/youtube-dl/bin/youtube-dl"}" -j ${overwrite || proxy && proxyEnabled ? `--proxy "${proxy}"` : ''} "${url}"`, function (err, out) {
                 if (err) {
                     res.end('"old"')
                     return
