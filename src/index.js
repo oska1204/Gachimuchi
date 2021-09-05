@@ -106,6 +106,7 @@ window.nextVideo = async function (reqUrl = '') {
     videos = []
     a.pause()
     v.pause()
+    iframe.src = ''
     let queueUrl = false
     let rndUrl
     clearTimeout(cancel)
@@ -134,6 +135,8 @@ window.nextVideo = async function (reqUrl = '') {
     if (iframeCbx.checked) {
         iframeNextVideo(url)
         return
+    } else {
+        updateIframe()
     }
     let old
     if (!url.href.match(/https?:\/\/(.*?\.)?youtu(\.be|be\.com)\/?/)) {
@@ -151,13 +154,19 @@ window.nextVideo = async function (reqUrl = '') {
     }
     clearTimeout(cancel)
     let response = await fetch(`?url=${url}`, { method: 'post' })
-    let json = await response.json()
+    let json = await response.json()    
     window.testUrl = url
     clearTimeout(cancel)
     if (json === 'old' && old) {
         response = await fetch(`?url=${old}`, { method: 'post' })
         json = await response.json()
         window.testUrl = old
+    } else if (url.href.match(/nicovideo/)) {
+        iframeNextVideo(url)
+        iframe.hidden = false
+        v.hidden = true
+        a.hidden = true
+        return
     }
     const pause = (elm) => {
         elm.pause()
@@ -309,7 +318,7 @@ vp.addEventListener('mouseleave', () => {
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 && v.childElementCount ? a.removeAttribute('poster') : null)
-iframeCbx.addEventListener('change', e => {
+function updateIframe() {
     if (iframeCbx.checked) {
         a.hidden = true
         v.hidden = true
@@ -319,7 +328,8 @@ iframeCbx.addEventListener('change', e => {
         v.hidden = false
         iframe.hidden = true
     }
-})
+}
+iframeCbx.addEventListener('change', updateIframe)
 
 const info = document.querySelector('.info')
 
