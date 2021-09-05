@@ -182,7 +182,7 @@ window.nextVideo = async function (reqUrl = '') {
     }
     pause(a)
     pause(v)
-    a.poster = json.thumbnail
+    a.poster = json.thumbnail || ''
     if (flvjs.isSupported() && json.ext === 'flv') {
         var flvPlayer = flvjs.createPlayer({
             type: 'flv',
