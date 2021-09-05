@@ -11,7 +11,7 @@ const realVideo = setInterval(() => {
 
 function start() {
     const v = document.querySelector('video')
-    let date = Date.now()
+    const seeked = {};
     const next = () => {
         chrome.runtime.sendMessage(
             { contentScriptQuery: 'ended' },
@@ -19,14 +19,14 @@ function start() {
         )
     }
 
-    const playFn = () => {
-        date = Date.now() + v.currentTime
-    }
-    v.addEventListener('play', playFn)
-
-    v.addEventListener('timeupdate', e => {
-        const amount = (v.duration * 1000 + date) - Date.now()
-        if (amount < 0)
+    v.addEventListener('seeked', e => {
+        const num = v.currentTime
+        if (!Number.isInteger(num))
+            return
+        if (seeked[num] === undefined)
+            seeked[num] = 0
+        seeked[num]++
+        if (seeked[num] > 1)
             next()
     })
 
