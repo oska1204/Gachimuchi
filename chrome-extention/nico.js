@@ -11,7 +11,7 @@ const realVideo = setInterval(() => {
 
 function start() {
     const v = document.querySelector('video')
-    let date
+    let date = Date.now()
     const next = () => {
         chrome.runtime.sendMessage(
             { contentScriptQuery: 'ended' },
@@ -20,8 +20,7 @@ function start() {
     }
 
     const playFn = () => {
-        date = Date.now()
-        v.removeEventListener('play', playFn)
+        date = Date.now() + v.currentTime
     }
     v.addEventListener('play', playFn)
 
