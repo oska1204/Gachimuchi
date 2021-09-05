@@ -70,6 +70,23 @@ video, #iframe {
     cursor: auto;
 }
 
+.full, .full .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.full .video-player {
+    order: -1;
+    width: calc(100% + 16px);
+    padding-top: calc(56.25% + 8px);
+    margin: -8px 0 0 -8px;
+}
+
+.full {
+    height: unset;
+    max-height: 200vh;
+}
+
 .buttons-wrapper label {
     display: inline-block;
 }

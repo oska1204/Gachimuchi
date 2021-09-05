@@ -22,6 +22,7 @@ if (window.name === 'Gachimuchi')
 window.urls = Array.from(document.querySelectorAll('[field="Name"] a'))
 let v = document.querySelector('#video')
 let a = document.querySelector('#audio')
+const wrapper = document.querySelector('.wrapper')
 const vp = document.querySelector('.video-player')
 const iframe = document.querySelector('#iframe')
 const c = document.querySelector('#random-checkbox')
@@ -335,12 +336,7 @@ iframeCbx.addEventListener('change', updateIframe)
 const info = document.querySelector('.info')
 
 window.toggle = function () {
-    const state = Array.from(document.body.children).includes(vp)
-    if (state) {
-        info.append(vp)
-    } else {
-        document.body.prepend(vp)
-    }
+    wrapper.classList.toggle('full')
 }
 
 const tbody = document.querySelector('tbody')

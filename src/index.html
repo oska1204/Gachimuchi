@@ -83,11 +83,6 @@ div.megadank-shift {
 </style><nav class="navbar navbar-expand-sm bg-dark navbar-dark"><a class="navbar-brand" href="/">Supinic</a><div class="navbar-nav mr-auto"><ul class="navbar-nav"><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Supibot</a><div class="dropdown-menu"><a class="dropdown-item" href="/bot/request-bot/form">Request Supibot</a><hr class="dropdown-divider"><a class="dropdown-item" href="/bot/channel/list">Channel list</a><a class="dropdown-item" href="/bot/command/list">Commands</a><a class="dropdown-item" href="/bot/command/stats">Commands statistics</a><a class="dropdown-item" href="/data/origin/list">Emote origins</a><a class="dropdown-item" href="/bot/slots-winner/list">Slots winners list</a><a class="dropdown-item" href="/data/suggestion/list">Suggestions - all</a><hr class="dropdown-divider"><a class="dropdown-item" href="/bot/stats">Bot statistics</a></div></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Make-a-bot</a><div class="dropdown-menu"><a class="dropdown-item" href="/bot/channel-bots/readme">Readme</a><a class="dropdown-item" href="/bot/channel-bots/list">Bots</a><a class="dropdown-item" href="/bot/channel-bots/badges">Badges</a><a class="dropdown-item" href="/bot/channel-bots/levels">Levels</a></div></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Music</a><div class="dropdown-menu"><a class="dropdown-item" href="/track/gachi/list">Gachi list</a><a class="dropdown-item" href="/track/todo/list">Todo list</a><a class="dropdown-item" href="/track/favourite/find">Favourites - find by user</a><hr class="dropdown-divider"><a class="dropdown-item" href="/gachi/archive">Archives</a><a class="dropdown-item" href="/gachi/list">Legacy list</a></div></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Stream</a><div class="dropdown-menu"><a class="dropdown-item" href="/cytube/video-request/history">Cytube history</a><a class="dropdown-item" href="/stream/tts">TTS voices</a><a class="dropdown-item" href="/stream/playsound/list">Playsounds</a><a class="dropdown-item" href="/stream/game/list">Stream games</a><a class="dropdown-item" href="/stream/song-request/queue">Video request queue</a><a class="dropdown-item" href="/stream/song-request/history">Video request history</a></div></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">API</a><div class="dropdown-menu"><a class="dropdown-item" href="/api">Documentation</a><a class="dropdown-item" href="/user/auth-key">Get API key</a></div></li><li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li></ul></div><div class="navbar-nav ml-auto"><a class="nav-link" href="/auth/twitch?returnTo=/track/gachi/list">Twitch login</a></div></nav></head>-->
 
 <body>
-	<div class="video-player" hidden="">
-		<video id="video" muted="" loop="" hidden></video>
-		<video id="audio" autoplay="" controls="" tabindex="0" hidden></video>
-		<iframe id="iframe" frameborder="0" allow="autoplay" allowfullscreen></iframe>
-	</div>
 	<div class="wrapper">
 		<div class="info">
 			<div class="control">
@@ -102,6 +97,11 @@ div.megadank-shift {
 					<label>Iframe: <input id="iframe-checkbox" type="checkbox"></label>
 				</div>
 				<div class="text"></div>
+			</div>
+			<div class="video-player" hidden="">
+				<video id="video" muted="" loop="" hidden></video>
+				<video id="audio" autoplay="" controls="" tabindex="0" hidden></video>
+				<iframe id="iframe" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 			</div>
 		</div>
 		<div class="scroll-wrapper loading">
