@@ -109,7 +109,8 @@ window.nextVideo = async function (reqUrl = '') {
     }
     links = []
     videos = []
-    iframe.src = ''
+    iframe.removeAttribute('src')
+    a.removeAttribute('poster')
     let queueUrl = false
     let rndUrl
     clearTimeout(cancel)
