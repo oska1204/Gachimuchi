@@ -46,9 +46,9 @@ a.addEventListener('waiting', () => setTimeout(() => enrollPause(undefined, 9000
 a.addEventListener('error', () => setTimeout(() => enrollPause(undefined, 9000), 1000))
 a.addEventListener('timeupdate', () => clearTimeout(cancel))
 a.addEventListener('pause', () => {
-    syncVideo()
     v.pause()
 })
+a.addEventListener('seeked', syncVideo)
 a.addEventListener('play', () => {
     syncVideo()
     v.play()
@@ -323,7 +323,7 @@ vp.addEventListener('mouseleave', () => {
 })
 a.addEventListener('input', () => clearTimeout(ti))
 v.addEventListener('input', () => clearTimeout(ti))
-v.addEventListener('timeupdate', e => a.poster && a.currentTime > 0 && v.childElementCount ? a.removeAttribute('poster') : null)
+v.addEventListener('playing', e => a.poster && v.childElementCount ? a.removeAttribute('poster') : null)
 function updateIframe() {
     if (iframeCbx.checked) {
         a.hidden = true
