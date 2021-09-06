@@ -30,7 +30,16 @@ const iframeCbx = document.querySelector('#iframe-checkbox')
 v.addEventListener('play', () => {
     syncVideo()
 })
+let last = {}
 v.addEventListener('timeupdate', () => {
+    const val = a.currentTime
+    if (!last[val]) {
+        last = {}
+        last[val] = 0
+    }
+    last[val]++
+    if (last[val] > 3)
+        return
     if (v.currentTime > a.currentTime + 2 || v.currentTime < a.currentTime - 3)
         syncVideo()
     else if (v.currentTime > a.currentTime + .2)
