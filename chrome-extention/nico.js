@@ -21,8 +21,6 @@ function start() {
 
     v.addEventListener('seeked', e => {
         const num = v.currentTime
-        if (!Number.isInteger(num))
-            return
         if (seeked[num] === undefined)
             seeked[num] = 0
         seeked[num]++
