@@ -92,7 +92,7 @@ window.reloadVideo = function () {
 }
 const text = document.querySelector('.text')
 async function iframeNextVideo(url) {
-    const setSrc = fn => iframe.src = fn(url.href)
+    const setSrc = fn => iframe.src = fn(url)
     switch (new URL(url).host) {
         case 'youtu.be':
         case 'www.youtube.com':
@@ -146,7 +146,7 @@ window.nextVideo = async function (reqUrl = '') {
         <p>ID: ${url.parentNode.parentNode.querySelector('[field="ID"]').innerHTML}</p>`
     console.log(Array.from(document.querySelector('.text').children).map((e, i) => i ? e.textContent : e.textContent.replace(/\n/, ' ').replace(/\t*/g, '') + '	' + e.firstElementChild.href).join('\n'))
     if (iframeCbx.checked) {
-        iframeNextVideo(url)
+        iframeNextVideo(url.href)
         return
     } else {
         updateIframe()
@@ -172,16 +172,17 @@ window.nextVideo = async function (reqUrl = '') {
     let json = await response.json()
     window.testUrl = url
     clearTimeout(cancel)
-    if (json === 'old' && old) {
-        response = await fetch(`?url=${old}`, { method: 'post' })
-        json = await response.json()
-        window.testUrl = old
-    } else if (url.href?.match(/nicovideo/)) {
-        iframeNextVideo(url)
+    if (old?.match(/nicovideo/) || url.match(/nicovideo/)) {
+        const nicoUrl = old.match(/nicovideo/) ? old : url
+        iframeNextVideo(nicoUrl)
         iframe.hidden = false
         v.hidden = true
         a.hidden = true
         return
+    } else if (json === 'old' && old) {
+        response = await fetch(`?url=${old}`, { method: 'post' })
+        json = await response.json()
+        window.testUrl = old
     }
     updateIframe()
     const pause = (elm) => {
