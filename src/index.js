@@ -172,8 +172,8 @@ window.nextVideo = async function (reqUrl = '') {
     let json = await response.json()
     window.testUrl = url
     clearTimeout(cancel)
-    if (old?.match(/nicovideo/) || url.match(/nicovideo/)) {
-        const nicoUrl = old.match(/nicovideo/) ? old : url
+    if (json === 'old' && old?.match(/nicovideo/) || url.href?.match(/nicovideo/)) {
+        const nicoUrl = old?.match(/nicovideo/) ? old : url.href
         iframeNextVideo(nicoUrl)
         iframe.hidden = false
         v.hidden = true
