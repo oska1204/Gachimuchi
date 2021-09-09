@@ -148,8 +148,6 @@ window.nextVideo = async function (reqUrl = '') {
     if (iframeCbx.checked) {
         iframeNextVideo(url.href)
         return
-    } else {
-        updateIframe()
     }
     a.pause()
     v.pause()
