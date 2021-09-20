@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 import './styles/style.css'
 import flvjs from 'flv.js'
 import Hls from 'hls.js'
+import { MediaPlayer } from 'dashjs'
 
 const allFiles = (ctx => {
     let keys = ctx.keys();
@@ -69,6 +70,7 @@ let videos = []
 let past = 0
 let index = 0
 let currentSong = 0
+let dashPlayer
 window.randomVideoUrl = async function () {
     // const rnd = Math.floor(Math.random() * urls.length)
     const rndRes = await fetch(`rnd`, { method: 'post' })
@@ -120,6 +122,7 @@ window.nextVideo = async function (reqUrl = '') {
     videos = []
     iframe.removeAttribute('src')
     a.removeAttribute('poster')
+    dashPlayer?.destroy()
     let queueUrl = false
     let rndUrl
     clearTimeout(cancel)
@@ -213,6 +216,12 @@ window.nextVideo = async function (reqUrl = '') {
         } catch (error) {
         }
         return
+    } else if (json.format?.startsWith('dash')) {
+        try {
+            dashPlayer = MediaPlayer().create();
+            dashPlayer.initialize(a, json.audios[0], true);
+        } catch (error) {
+        }
     }
     try {
         links.push(...json.audios)
